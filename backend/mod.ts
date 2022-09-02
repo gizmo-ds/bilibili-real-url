@@ -7,7 +7,7 @@ serve(
   {
     "/bilibili/:id.json": biliVideoInfo,
     "/bilibili/:id.mp4": biliVideo,
-    "/bilibili/live/:id.m3u8": biliLive,
+    "/bilibili/:id.m3u8": biliLive,
 
     "/": serveStatic("../public/index.html", { baseUrl: import.meta.url }),
     "/:filename+": serveStatic("../public", { baseUrl: import.meta.url }),

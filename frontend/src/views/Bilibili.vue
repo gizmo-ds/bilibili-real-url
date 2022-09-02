@@ -73,7 +73,7 @@ function _parseLive(_url: string) {
   pType = "live";
   [preview, title, author] = "";
   pages = [];
-  preview = `/bilibili/live/${id}.m3u8`;
+  preview = `/bilibili/${id}.m3u8`;
 }
 </script>
 
