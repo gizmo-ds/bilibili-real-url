@@ -1,86 +1,93 @@
 <script lang="ts" setup>
-import { useNotification } from "naive-ui";
-import { h, watch, computed } from "vue";
-import { Sun } from "@vicons/tabler";
-import { useClipboard } from "@vueuse/core";
+import { useNotification } from 'naive-ui';
+import { h, watch, computed, ref } from 'vue';
+import { Sun } from '@vicons/tabler';
+import { useClipboard } from '@vueuse/core';
 
-defineProps({
+const props = defineProps({
   isDark: Boolean,
-  toggleDark: Function,
+  toggleDark: Function
 });
 
 const notification = useNotification();
 
-let video = $ref(undefined);
+const u = ref('');
+const preview = ref('');
+const page = ref(1);
+const id = ref('');
+const title = ref('');
+const author = ref('');
+const pages = ref([]);
+const parse_type = ref('video');
+const loading = ref(false);
+const { copy, copied } = useClipboard({ source: preview });
 
-let u = $ref("");
-let preview = $ref("");
-let page = $ref(1);
-let id = $ref("");
-let title = $ref("");
-let author = $ref("");
-let pages = $ref([]);
-let pType = $ref("video");
-let loading = $ref(false);
-let nu = computed(() => `${location.origin}${preview}`);
-const { copy, copied } = useClipboard({ source: nu });
-
-watch($$(page), (p) => {
-  preview = `/bilibili/${id}.mp4?p=${p}`;
+watch(page, p => {
+  return (preview.value = `/${id.value}.mp4` + (p > 0 ? `?p=${p}` : ''));
 });
 
 const parse = () => {
-  const _u = new URL(u);
-  const p = _u.searchParams.get("p");
+  const _u = new URL(u.value);
+  const p = _u.searchParams.get('p');
 
-  if (_u.pathname.indexOf("/video") !== -1)
-    return _parseVideo(u, parseInt(p ?? "1"));
-  if (_u.hostname.indexOf("live.") !== -1) return _parseLive(u);
+  if (_u.pathname.indexOf('/video') !== -1)
+    return parse_video(u.value, parseInt(p ?? '1'));
+  if (_u.hostname.indexOf('live.') !== -1) return parse_live(u.value);
 };
 
-function _parseVideo(_url: string, _p: number) {
-  pType = "video";
+function parse_video(_url: string, _p: number) {
+  parse_type.value = 'video';
   if (isNaN(_p)) _p = 1;
-  id = /av[0-9]+/gi.exec(_url)?.[0] ?? /bv\w+/gi.exec(_url)?.[0] ?? "";
-  loading = true;
-  fetch(`/bilibili/${id}.json`)
-    .finally(() => {
-      loading = false;
-    })
-    .then((resp) => resp.json())
-    .then((body) => {
+  id.value = /av[0-9]+/gi.exec(_url)?.[0] ?? /bv\w+/gi.exec(_url)?.[0] ?? '';
+  loading.value = true;
+  fetch(`/api/${id.value}_info.json`)
+    .finally(() => (loading.value = false))
+    .then(resp => resp.json())
+    .then(body => {
       if (body.error)
         return notification.error({
-          title: "解析失败",
+          title: '解析失败',
           content: body.error,
           duration: 5000,
-          meta: _url,
+          meta: _url
         });
 
-      [title, author, page] = [body.title, body.author, _p];
-      pages = body.pages.map((item: any, index: number) => ({
+      [title.value, author.value, page.value] = [body.title, body.author, _p];
+      pages.value = body.pages.map((item: any, index: number) => ({
         label: () =>
-          h("span", {}, { default: () => `P${index + 1} ${item.part}` }),
-        value: index + 1,
+          h('span', {}, { default: () => `P${index + 1} ${item.part}` }),
+        value: index + 1
       }));
       if (_p > body.pages.length) return;
-      if (_p === page) preview = `/bilibili/${id}.mp4?p=${_p}`;
+      if (_p === page.value) {
+        const query = new URLSearchParams();
+        if (_p > 1) query.set('p', _p.toString());
+        set_preview(`/${id.value}.mp4`, query);
+      }
     });
 }
-function _parseLive(_url: string) {
-  id = /[0-9]+/g.exec(_url)?.[0] ?? "";
-  if (!id || id === "") return;
-  pType = "live";
-  [preview, title, author] = "";
-  pages = [];
-  preview = `/bilibili/${id}.m3u8`;
+function parse_live(_url: string) {
+  id.value = /[0-9]+/g.exec(_url)?.[0] ?? '';
+  if (!id.value || id.value === '') return;
+  parse_type.value = 'live';
+  [preview.value, title.value, author.value] = '';
+  pages.value = [];
+  set_preview(`/${id.value}.m3u8`);
+}
+function set_preview(path: string, query?: URLSearchParams) {
+  const u = new URL(path, location.origin);
+  if (query) u.search = query.toString();
+  preview.value = u.toString();
+}
+function toggle_dark(v: boolean) {
+  props.toggleDark!(v);
 }
 </script>
 
 <template>
   <n-card>
     <template #header>
-      <n-tabs v-model:value="pType">
+      <n-tabs v-model:value="parse_type">
         <n-tab-pane name="video" tab="视频"> </n-tab-pane>
         <n-tab-pane name="live" tab="直播"> </n-tab-pane>
       </n-tabs>
@@ -89,10 +96,11 @@ function _parseLive(_url: string) {
       <n-icon size="18px" :style="{ paddingRight: '5px' }">
         <sun />
       </n-icon>
+      <!-- @ts-ignore -->
       <n-switch
         size="small"
         :value="isDark"
-        @update:value="toggleDark"
+        @update:value="toggle_dark"
         :checked-value="false"
         :unchecked-value="true"
       />
@@ -103,7 +111,7 @@ function _parseLive(_url: string) {
         <n-input
           :placeholder="
             '如：' +
-            (pType === 'video'
+            (parse_type === 'video'
               ? 'https://www.bilibili.com/video/BV1iF41157gM'
               : 'https://live.bilibili.com/5555734 (不支持轮播)')
           "
@@ -121,7 +129,7 @@ function _parseLive(_url: string) {
       <n-select v-model:value="page" :options="pages" v-if="pages.length > 0" />
 
       <n-input-group v-if="preview">
-        <n-input v-model:value="nu" readonly />
+        <n-input v-model:value="preview" readonly />
         <n-button
           type="primary"
           :disabled="u === '' || loading"

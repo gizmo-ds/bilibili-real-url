@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { darkTheme } from "naive-ui";
-import { UseDark } from "@vueuse/components";
-import bilibili from "./views/Bilibili.vue";
+import { darkTheme } from 'naive-ui';
+import { UseDark } from '@vueuse/components';
+import bilibili from './views/Bilibili.vue';
 </script>
 
 <template>
-  <UseDark v-slot="{ isDark, toggleDark }">
+  <use-dark v-slot="{ isDark, toggleDark }">
     <n-config-provider
       :theme="isDark ? darkTheme : undefined"
       :style="{ colorScheme: isDark ? 'dark' : 'light' }"
@@ -24,7 +24,7 @@ import bilibili from "./views/Bilibili.vue";
         </n-layout>
       </n-notification-provider>
     </n-config-provider>
-  </UseDark>
+  </use-dark>
 </template>
 
 <style scoped lang="scss">
