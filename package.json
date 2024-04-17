@@ -1,0 +1,19 @@
+{
+  "name": "bilibili-real-url",
+  "author": {
+    "name": "Gizmo",
+    "url": "https://github.com/gizmo-ds"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "nitropack": "latest"
+  },
+  "homepage": "https://github.com/gizmo-ds/bilibili-real-url",
+  "preview": true,
+  "scripts": {
+    "prepare": "npx nitropack prepare",
+    "dev": "npx nitropack dev",
+    "build": "npx nitropack build",
+    "preview": "node .output/server/index.mjs"
+  }
+}

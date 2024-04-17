@@ -3,28 +3,28 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/GizmoOAO/bilibili-real-url",
+  "homepage": "https://github.com/gizmo-ds/bilibili-real-url",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
     "@vueuse/components": "^9.1.1",
-    "vue": "^3.2.37"
+    "vite": "^5.2.9",
+    "vite-plugin-pwa": "^0.19.8",
+    "vite-svg-loader": "^5.1.0",
+    "vue": "^3.2.37",
+    "vue-tsc": "^2.0.13"
   },
   "devDependencies": {
     "@vicons/tabler": "^0.12.0",
-    "@vitejs/plugin-vue": "^3.0.3",
     "@vueuse/core": "^9.1.1",
-    "naive-ui": "^2.33.1",
+    "naive-ui": "^2.38.1",
     "sass": "^1.54.8",
-    "typescript": "^4.6.4",
+    "typescript": "^5.4.5",
     "unplugin-auto-import": "^0.11.2",
-    "unplugin-vue-components": "^0.22.4",
-    "vite": "^3.0.7",
-    "vite-plugin-pwa": "^0.12.4",
-    "vite-svg-loader": "^3.5.1",
-    "vue-tsc": "^0.39.5"
+    "unplugin-vue-components": "^0.22.4"
   }
 }

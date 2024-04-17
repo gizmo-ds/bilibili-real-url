@@ -22,5 +22,14 @@ dist-ssr
 *.sln
 *.sw?
 
+# Nitro dev/build outputs
+.output
+.data
+.nitro
+.cache
+dist
+
+# Local env files
 .env
-/public
+.env.*
+!.env.example
