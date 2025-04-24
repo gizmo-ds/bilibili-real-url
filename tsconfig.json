@@ -1,7 +1,7 @@
 {
-  "extends": "./.nitro/types/tsconfig.json",
-  "compilerOptions": {
-    "paths": { "@/*": ["./*"] }
-  },
-  "exclude": ["backend/public/**/*"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
