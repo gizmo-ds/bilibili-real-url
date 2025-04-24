@@ -5,18 +5,13 @@ import UnoCSS from 'unocss/vite';
 import { setup } from '@css-render/vue3-ssr';
 import type { ViteSSGOptions } from 'vite-ssg/single-page';
 import svgLoader from 'vite-svg-loader';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   build: {
     outDir: fileURLToPath(new URL('./server/public', import.meta.url)),
     emptyOutDir: true,
     sourcemap: process.env.SOURCE_MAP === 'true'
-  },
-  resolve: {
-    alias: {
-      app: fileURLToPath(new URL('./app', import.meta.url)),
-      '~': fileURLToPath(new URL('./', import.meta.url))
-    }
   },
   server: {
     proxy: {
@@ -41,5 +36,25 @@ export default defineConfig({
       );
     }
   } as ViteSSGOptions,
-  plugins: [vue(), UnoCSS(), svgLoader()]
+  plugins: [
+    vue(),
+    UnoCSS(),
+    svgLoader(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.png'],
+      workbox: { globPatterns: ['**/*.{js,css,html,ico,png,svg}'] },
+      manifest: {
+        name: '屑站解析',
+        short_name: '屑站解析',
+        description: '让bilibili视频与直播在VRChat中播放更简单',
+        theme_color: '#101014',
+        background_color: '#101014',
+        icons: [
+          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' }
+        ]
+      }
+    })
+  ]
 });
