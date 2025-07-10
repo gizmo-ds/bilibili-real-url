@@ -28,10 +28,10 @@ dist-ssr
 .nitro
 .cache
 dist
+.vercel
+.wrangler
 
 # Local env files
 .env
 .env.*
 !.env.example
-
-.vercel
