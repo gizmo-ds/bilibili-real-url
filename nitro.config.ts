@@ -1,4 +1,5 @@
 import { fileURLToPath, URL } from 'node:url';
+import { defineNitroConfig } from 'nitropack/config';
 
 export default defineNitroConfig({
   compatibilityDate: '2025-04-24',

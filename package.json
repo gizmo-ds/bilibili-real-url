@@ -16,27 +16,33 @@
     "preview": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "@falcondev-oss/nitro-trpc-event-handler": "^0.1.1",
-    "@iconify-json/tabler": "^1.2.17",
-    "@trpc/client": "^11.1.1",
-    "@trpc/server": "^11.1.1",
-    "@vueuse/core": "^13.1.0",
-    "naive-ui": "^2.41.0",
+    "@falcondev-oss/nitro-trpc-event-handler": "^0.1.3",
+    "@iconify-json/tabler": "^1.2.19",
+    "@trpc/client": "^11.4.3",
+    "@trpc/server": "^11.4.3",
+    "@vueuse/core": "^13.5.0",
+    "naive-ui": "^2.42.0",
     "vfonts": "^0.0.3",
-    "zod": "^3.24.3"
+    "zod": "^4.0.2"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitejs/plugin-vue": "^6.0.0",
     "@vue/tsconfig": "^0.7.0",
     "nitropack": "latest",
     "npm-run-all": "^4.1.5",
-    "sass-embedded": "^1.87.0",
-    "unocss": "66.1.0-beta.12",
-    "vite": "^6.3.2",
-    "vite-plugin-pwa": "^1.0.0",
-    "vite-ssg": "^26.1.1",
+    "sass-embedded": "^1.89.2",
+    "unocss": "66.3.3",
+    "vite": "^7.0.3",
+    "vite-plugin-pwa": "^1.0.1",
+    "vite-ssg": "^28.0.0",
     "vite-svg-loader": "^5.1.0"
   },
-  "packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f"
+  "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ]
+  }
 }
