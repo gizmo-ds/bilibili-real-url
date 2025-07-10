@@ -6,13 +6,9 @@ import { setup } from '@css-render/vue3-ssr';
 import type { ViteSSGOptions } from 'vite-ssg/single-page';
 import svgLoader from 'vite-svg-loader';
 import { VitePWA } from 'vite-plugin-pwa';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 export default defineConfig({
-  build: {
-    outDir: fileURLToPath(new URL('./server/public', import.meta.url)),
-    emptyOutDir: true,
-    sourcemap: process.env.SOURCE_MAP === 'true'
-  },
   server: {
     proxy: {
       '/rpc': 'http://localhost:3000',
@@ -40,6 +36,7 @@ export default defineConfig({
     vue(),
     UnoCSS(),
     svgLoader(),
+    vueJsx(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png'],
@@ -56,5 +53,10 @@ export default defineConfig({
         ]
       }
     })
-  ]
+  ],
+  build: {
+    outDir: fileURLToPath(new URL('./server/public', import.meta.url)),
+    emptyOutDir: true,
+    sourcemap: process.env.SOURCE_MAP === 'true'
+  }
 });

@@ -11,8 +11,8 @@ import {
 import { h, watch, ref } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import ThemeSwitch from '../components/ThemeSwitch.vue';
-import ExternalLink from '../components/ExternalLink.vue';
-import BiliPreview from '../components/BiliPreview.vue';
+import ExternalLink from '../components/ExternalLink';
+import BiliPreview from '../components/BiliPreview';
 import { trpc } from '../rpc';
 
 const notification = useNotification();
@@ -28,6 +28,12 @@ const videoInfo = ref<any | null>(null);
 const liveRoomInfo = ref<any | null>(null);
 
 watch(page, p => set_preview(`/${id.value}.mp4` + (p > 0 ? `?p=${p}` : '')));
+
+const preset: { name: string; url: string }[] = [
+  { name: '一般视频', url: 'https://www.bilibili.com/video/BV1Mx4y137fa' },
+  { name: '分P视频', url: 'https://www.bilibili.com/video/BV1ms411b7Ph' },
+  { name: '直播链接', url: 'https://live.bilibili.com/10' }
+];
 
 function parse() {
   preview.value = '';
@@ -131,26 +137,8 @@ function URLcanParse(u: string) {
     <div class="flex flex-col gap-row-8px gap-col-12px">
       <div class="flex flex-row justify-between pb-2">
         <div class="line-height-22px flex flex-row gap-col-8px">
-          <n-button
-            text
-            type="primary"
-            @click="u = 'https://www.bilibili.com/video/BV1Mx4y137fa/'"
-          >
-            普通视频
-          </n-button>
-          <n-button
-            text
-            type="primary"
-            @click="u = 'https://www.bilibili.com/video/BV1ms411b7Ph/'"
-          >
-            分P视频
-          </n-button>
-          <n-button
-            text
-            type="primary"
-            @click="u = 'https://live.bilibili.com/5555734'"
-          >
-            直播链接
+          <n-button v-for="v in preset" text type="primary" @click="u = v.url">
+            {{ v.name }}
           </n-button>
         </div>
         <theme-switch />
